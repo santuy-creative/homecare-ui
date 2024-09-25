@@ -1,24 +1,15 @@
 <template>
   <div class="q-pa-md">
     <q-layout view="hHh Lpr fFf">
-      <q-header
-        elevated
-        :class="$q.dark.isActive ? 'bg-secondary' : 'bg-black'"
-      >
+      <q-header elevated :class="$q.dark.isActive ? 'bg-secondary' : 'bg-black'">
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
-          <q-toolbar-title>Header</q-toolbar-title>
+          <q-toolbar-title>MCO Dashboard</q-toolbar-title>
         </q-toolbar>
       </q-header>
 
-      <q-drawer
-        v-model="drawer"
-        show-if-above
-        :width="200"
-        :breakpoint="500"
-        bordered
-        :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
-      >
+      <q-drawer v-model="drawer" show-if-above :width="200" :breakpoint="500" bordered
+        :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'">
         <q-scroll-area class="fit">
           <q-list>
             <template v-for="item in menuList" :key="item.label">
@@ -47,12 +38,9 @@
         </q-page>
       </q-page-container>
 
-      <q-footer
-        elevated
-        :class="$q.dark.isActive ? 'bg-secondary' : 'bg-black'"
-      >
+      <q-footer elevated :class="$q.dark.isActive ? 'bg-secondary' : 'bg-black'">
         <q-toolbar>
-          <q-toolbar-title>Footer</q-toolbar-title>
+          <q-toolbar-title>MCO All rights reserved</q-toolbar-title>
         </q-toolbar>
       </q-footer>
     </q-layout>
