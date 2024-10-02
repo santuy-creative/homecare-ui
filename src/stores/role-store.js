@@ -26,7 +26,7 @@ export const useRoleStore = defineStore("roles", {
     },
 
     async edit(data) {
-      return await server.post(`api/roles/${data.uuid}`, data, {
+      return await server.patch(`api/roles/${data.uuid}`, data, {
         headers: headersImage,
       });
     },

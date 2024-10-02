@@ -54,7 +54,7 @@ const rules = {
 // Fetch existing role data and populate form
 const fetchRole = async () => {
   try {
-    console.log(id);
+    // console.log(id);
     const res = await roleStore.show(id);
     const item = res.data.data;
     form.value.uuid = item.uuid;
@@ -75,11 +75,14 @@ onMounted(() => {
 
 // Form submission handler
 const onSubmit = async () => {
+  // const formData = new FormData();
+  // formData.append("uuid", form.value.uuid);
+  // formData.append("name", form.value.name);
   // Assuming this is where you would normally send the data to the server
   try {
     console.log("Form submitted:", form.value);
     const res = await roleStore.edit(form.value);
-    console.log(res.data);
+    console.log(res);
 
     $q.notify({
       message: "Role berhasil diperbarui",

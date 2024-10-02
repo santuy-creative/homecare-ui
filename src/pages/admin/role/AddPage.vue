@@ -54,15 +54,11 @@ const rules = {
 
 // Form submission handler
 const onSubmit = async () => {
-  // Prepare form data
-  const formData = new FormData();
-  formData.append("name", form.value.name);
-
   // Assuming this is where you would normally send the data to the server
   try {
     // Simulate a successful submission
-    console.log("Form submitted:", formData);
-    await useRoleStore().create(formData);
+    console.log("Form submitted:", form.value);
+    await useRoleStore().create(form.value);
     $q.notify({
       message: "Role berhasil dibuat",
       icon: "check",
