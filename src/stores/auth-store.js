@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
-import { server } from "../boot/axios";
+import { server, headersImage } from "../boot/axios";
 
 const token = localStorage.getItem("acces_token");
-const headers = {
-  Authorization: `Bearer ${token}`,
-};
+// const headers = {
+//   Authorization: `Bearer ${token}`,
+// };
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
@@ -45,6 +45,11 @@ export const useAuthStore = defineStore("auth", {
       } catch (error) {
         if (error) throw error;
       }
+    },
+    async registeradmin(data) {
+      return await server.post("api/auth/register-by-admin", data, {
+        headers: headersImage,
+      });
     },
   },
 });

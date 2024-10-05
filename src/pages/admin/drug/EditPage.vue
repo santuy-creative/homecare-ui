@@ -3,7 +3,7 @@
     <q-form @submit.prevent="onSubmit" @reset="onReset">
       <q-card>
         <q-card-section>
-          <div class="text-h6">Update Role</div>
+          <div class="text-h6">Update Drug</div>
         </q-card-section>
 
         <q-separator />
@@ -14,6 +14,19 @@
             label="Name"
             outlined
             :rules="rules.name"
+          />
+          <q-input
+            v-model="form.description"
+            label="Description"
+            outlined
+            :rules="rules.description"
+          /><br />
+
+          <q-input
+            v-model="form.price"
+            label="Price"
+            outlined
+            :rules="rules.price"
           />
         </q-card-section>
 
@@ -32,37 +45,43 @@
 import { ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
 import { useRouter, useRoute } from "vue-router";
-import { useRoleStore } from "/src/stores/role-store";
+import { useDrugStore } from "/src/stores/drug-store";
 
 const $q = useQuasar();
 const router = useRouter();
 const route = useRoute();
-const roleStore = useRoleStore();
+const drugStore = useDrugStore();
 const id = route.params.id;
 
 // Form data
 const form = ref({
   uuid: "",
   name: "",
+  description: "",
+  price: "",
 });
 
 // Validation rules
 const rules = {
   name: [(v) => !!v || "Nama harus diisi"],
+  description: [(v) => !!v || "Deskripsi harus diisi"],
+  price: [(v) => !!v || "Harga harus diisi"],
 };
 
-// Fetch existing role data and populate form
-const fetchRole = async () => {
+// Fetch existing drug data and populate form
+const fetchDrug = async () => {
   try {
     // console.log(id);
-    const res = await roleStore.show(id);
+    const res = await drugStore.show(id);
     const item = res.data.data;
     form.value.uuid = item.uuid;
     form.value.name = item.name;
+    form.value.description = item.description;
+    form.value.price = item.price;
   } catch (error) {
-    console.error("Error fetching role:", error);
+    console.error("Error fetching drug:", error);
     $q.notify({
-      message: "Error fetching role",
+      message: "Error fetching drug",
       icon: "warning",
       color: "negative",
     });
@@ -70,26 +89,26 @@ const fetchRole = async () => {
 };
 
 onMounted(() => {
-  fetchRole();
+  fetchDrug();
 });
 
 // Form submission handler
 const onSubmit = async () => {
   try {
     console.log("Form submitted:", form.value);
-    const res = await roleStore.edit(form.value);
+    const res = await drugStore.edit(form.value);
     console.log(res);
 
     $q.notify({
-      message: "Role berhasil diperbarui",
+      message: "Drug berhasil diperbarui",
       icon: "check",
       color: "positive",
     });
-    router.push("/dashboard/role");
+    router.push("/dashboard/drug");
   } catch (error) {
     console.error("Error submitting form:", error);
     $q.notify({
-      message: error.response?.data?.message || "Role gagal diperbarui",
+      message: error.response?.data?.message || "Drug gagal diperbarui",
       icon: "warning",
       color: "negative",
     });
@@ -98,6 +117,6 @@ const onSubmit = async () => {
 
 // Form reset handler
 const onReset = () => {
-  fetchRole();
+  fetchDrug();
 };
 </script>

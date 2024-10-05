@@ -3,7 +3,7 @@
     <q-form @submit="onSubmit" @reset="onReset">
       <q-card>
         <q-card-section>
-          <div class="text-h6">Add Role</div>
+          <div class="text-h6">Add Payment</div>
         </q-card-section>
 
         <q-separator />
@@ -14,6 +14,12 @@
             label="Name"
             outlined
             :rules="rules.name"
+          />
+          <q-input
+            v-model="form.description"
+            label="Description"
+            outlined
+            :rules="rules.description"
           />
         </q-card-section>
 
@@ -33,36 +39,38 @@ import { ref } from "vue";
 import { useQuasar } from "quasar";
 import { url } from "/src/boot/axios";
 import { useRouter } from "vue-router";
-import { useRoleStore } from "/src/stores/role-store";
+import { usePaymentStore } from "/src/stores/payment-store";
 
 const $q = useQuasar();
 const router = useRouter();
 // Form data
 const form = ref({
   name: "",
+  description: "",
 });
 
 // Validation rules
 const rules = {
   name: [(v) => !!v || "Nama harus diisi"],
+  description: [(v) => !!v || "Deskripsi harus diisi"],
 };
 
 // Form submission handler
 const onSubmit = async () => {
   // Assuming this is where you would normally send the data to the server
   try {
-    await useRoleStore().create(form.value);
+    await usePaymentStore().create(form.value);
     $q.notify({
-      message: "Role berhasil dibuat",
+      message: "Payment berhasil dibuat",
       icon: "check",
       color: "positive",
     });
     // onReset(); // Optionally reset the form on successful submission
-    router.push("/dashboard/role");
+    router.push("/dashboard/payment");
   } catch (error) {
     console.error("Error submitting form:", error);
     $q.notify({
-      message: error.response?.data?.message || "Role gagal dibuat",
+      message: error.response?.data?.message || "Payment gagal dibuat",
       icon: "warning",
       color: "negative",
     });
@@ -73,6 +81,7 @@ const onSubmit = async () => {
 const onReset = () => {
   form.value = {
     name: "",
+    description: "",
   };
 };
 </script>

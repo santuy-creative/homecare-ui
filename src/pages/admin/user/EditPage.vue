@@ -3,7 +3,7 @@
     <q-form @submit.prevent="onSubmit" @reset="onReset">
       <q-card>
         <q-card-section>
-          <div class="text-h6">Update Role</div>
+          <div class="text-h6">Update User</div>
         </q-card-section>
 
         <q-separator />
@@ -14,6 +14,26 @@
             label="Name"
             outlined
             :rules="rules.name"
+          />
+          <q-input
+            v-model="form.email"
+            label="Email"
+            outlined
+            :rules="rules.email"
+          /><br />
+          <q-input
+            v-model="form.password"
+            label="Password"
+            outlined
+            :rules="rules.password"
+          /><br />
+          <q-select
+            v-model="form.role_uuid"
+            :options="roles"
+            label="Pilih Role"
+            filled
+            emit-value
+            map-options
           />
         </q-card-section>
 
@@ -32,37 +52,43 @@
 import { ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
 import { useRouter, useRoute } from "vue-router";
-import { useRoleStore } from "/src/stores/role-store";
+import { useUserStore } from "/src/stores/user-store";
 
 const $q = useQuasar();
 const router = useRouter();
 const route = useRoute();
-const roleStore = useRoleStore();
+const userStore = useUserStore();
 const id = route.params.id;
 
 // Form data
 const form = ref({
   uuid: "",
   name: "",
+  description: "",
+  price: "",
 });
 
 // Validation rules
 const rules = {
   name: [(v) => !!v || "Nama harus diisi"],
+  description: [(v) => !!v || "Deskripsi harus diisi"],
+  price: [(v) => !!v || "Harga harus diisi"],
 };
 
-// Fetch existing role data and populate form
-const fetchRole = async () => {
+// Fetch existing user data and populate form
+const fetchUser = async () => {
   try {
     // console.log(id);
-    const res = await roleStore.show(id);
+    const res = await userStore.show(id);
     const item = res.data.data;
     form.value.uuid = item.uuid;
     form.value.name = item.name;
+    form.value.description = item.description;
+    form.value.price = item.price;
   } catch (error) {
-    console.error("Error fetching role:", error);
+    console.error("Error fetching user:", error);
     $q.notify({
-      message: "Error fetching role",
+      message: "Error fetching user",
       icon: "warning",
       color: "negative",
     });
@@ -70,26 +96,26 @@ const fetchRole = async () => {
 };
 
 onMounted(() => {
-  fetchRole();
+  fetchUser();
 });
 
 // Form submission handler
 const onSubmit = async () => {
   try {
     console.log("Form submitted:", form.value);
-    const res = await roleStore.edit(form.value);
+    const res = await userStore.edit(form.value);
     console.log(res);
 
     $q.notify({
-      message: "Role berhasil diperbarui",
+      message: "User berhasil diperbarui",
       icon: "check",
       color: "positive",
     });
-    router.push("/dashboard/role");
+    router.push("/dashboard/user");
   } catch (error) {
     console.error("Error submitting form:", error);
     $q.notify({
-      message: error.response?.data?.message || "Role gagal diperbarui",
+      message: error.response?.data?.message || "User gagal diperbarui",
       icon: "warning",
       color: "negative",
     });
@@ -98,6 +124,6 @@ const onSubmit = async () => {
 
 // Form reset handler
 const onReset = () => {
-  fetchRole();
+  fetchUser();
 };
 </script>
