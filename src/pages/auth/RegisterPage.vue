@@ -38,13 +38,15 @@
     </div>
 
     <div class="row q-pa-sm q-mt-xl justify-center items-center">
-      <q-form @submit="onLogin" style="width: 300px">
+      <q-form @submit="onRegister" style="width: 300px">
+        <q-input outlined stack-label v-model="name" label="Name" type="text" />
         <q-input
           outlined
           stack-label
           v-model="email"
           label="Email"
           type="email"
+          class="q-mt-md"
         />
         <q-input
           outlined
@@ -60,15 +62,13 @@
           class="bg-blue text-white q-mt-lg"
           style="width: 300px; border-radius: 30px; font-size: 20px"
           type="submit"
-          label="Login"
+          label="Register"
         />
       </q-form>
     </div>
     <div class="q-px-md q-mt-md text-center">
-      <div class="q-mb-md no-account">Have an account?</div>
-      <q-btn color="teal" outline rounded to="/register" size="15px"
-        >Register Here</q-btn
-      >
+      <div class="q-mb-md no-account">Don't have an account?</div>
+      <q-btn color="teal" outline rounded to="/login" size="15px">Login</q-btn>
     </div>
   </q-page>
 </template>
@@ -82,41 +82,39 @@ import { useAuthStore } from "src/stores/auth-store";
 const $q = useQuasar();
 const router = useRouter();
 const authStore = useAuthStore();
+const name = ref("");
 const email = ref("");
 const password = ref("");
 
 onMounted(() => {
   // Reset email dan password saat komponen dimuat
+  name.value = "";
   email.value = "";
   password.value = "";
 });
 
 // Login
-const onLogin = async () => {
+const onRegister = async () => {
   try {
-    const res = await authStore.login(email.value, password.value);
+    const res = await authStore.register(
+      name.value,
+      email.value,
+      password.value
+    );
 
-    if (res.data.message === "Login success") {
-      localStorage.setItem("token", res.data.access_token);
-      $q.notify({
-        message: res.data.message,
-        icon: "check",
-        color: "positive",
-      });
-      router.push({ name: "dashboard" });
-      // window.location.reload();
-    } else {
-      $q.notify({
-        icon: "warning",
-        color: "negative",
-        message: "Email atau Password salah, silahkan coba lagi",
-      });
-    }
+    localStorage.setItem("token", res.data.access_token);
+    $q.notify({
+      message: "Register Success",
+      icon: "check",
+      color: "positive",
+    });
+    router.push({ name: "home" });
+    // window.location.reload();
   } catch (error) {
     $q.notify({
       icon: "warning",
       color: "negative",
-      message: "Email atau Password salah, silahkan coba lagi",
+      message: "Silahkan coba lagi",
     });
     console.error(error);
   }

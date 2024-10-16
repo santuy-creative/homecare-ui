@@ -1,44 +1,11 @@
 <template>
   <div class="row q-mt-md">
     <!-- Form Pendaftaran -->
-    <div
-      class="col-4 text-center hover card"
-      @click="(formPendaftaran = true), (danger = true)"
-    >
+    <div class="col-4 text-center hover card" @click="formPendaftaran">
       <q-card-section>
         <q-icon class="q-mb-sm" color="black" name="description" size="40px" />
         <div class="text-subtitle2" style="color: black">Form Pendaftaran</div>
       </q-card-section>
-      <q-dialog
-        v-model="formPendaftaran"
-        persistent
-        :maximized="maximizedToggle"
-        transition-show="slide-up"
-        transition-hide="slide-down"
-      >
-        <FormPendaftaran />
-      </q-dialog>
-      <!-- Warning -->
-      <q-dialog v-model="danger" :position="bot">
-        <q-card class="q-pa-lg" style="border-radius: 20px 20px 0 0">
-          <div class="column items-center">
-            <q-icon name="warning" size="50px" />
-          </div>
-          <p class="q-py-md" style="font-size: 12px">
-            Tidak menangani cedera baru, patah tulang, kelainan tulang, lumpuh,
-            stroke, diabetes, jantung, dan penyakit dalam lainnya
-          </p>
-          <div class="column items-center q-pb-md">
-            <q-btn
-              no-caps
-              color="primary"
-              size="12px"
-              label="Ok, Mengerti"
-              @click="danger = false"
-            />
-          </div>
-        </q-card>
-      </q-dialog>
     </div>
 
     <!-- Status Registrasi -->
@@ -118,16 +85,19 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router"; // Import useRouter for navigation
 
-const bot = ref("bottom");
-const danger = ref(false);
+const router = useRouter(); // Initialize router for navigation
+
 const maximizedToggle = ref(true);
-
-const formPendaftaran = ref(false);
 const statusRegistrasi = ref(false);
 const biayaPenanganan = ref(false);
 const informasiJadwal = ref(false);
 const faq = ref(false);
+
+const formPendaftaran = () => {
+  router.push("home/formdaftar");
+};
 </script>
 
 <style scoped>

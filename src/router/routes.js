@@ -8,6 +8,11 @@ const routes = [
         name: "home",
         component: () => import("pages/home/BerandaPage.vue"),
       },
+      {
+        path: "formdaftar",
+        name: "formdaftar",
+        component: () => import("pages/home/FormpendaftaranPage.vue"),
+      },
     ],
   },
   {
@@ -18,6 +23,17 @@ const routes = [
         path: "",
         name: "login",
         component: () => import("pages/auth/LoginPage.vue"),
+      },
+    ],
+  },
+  {
+    path: "/register",
+    component: () => import("layouts/AuthLayout.vue"),
+    children: [
+      {
+        path: "",
+        name: "register",
+        component: () => import("pages/auth/RegisterPage.vue"),
       },
     ],
   },

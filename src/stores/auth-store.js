@@ -18,13 +18,12 @@ export const useAuthStore = defineStore("auth", {
   getters: {},
 
   actions: {
-    async register(name, email, password, repassword) {
+    async register(name, email, password) {
       try {
         return await server.post("api/auth/register", {
           name,
           email,
           password,
-          repassword,
         });
       } catch (error) {
         if (error) throw error;
@@ -46,8 +45,15 @@ export const useAuthStore = defineStore("auth", {
         if (error) throw error;
       }
     },
+
     async registeradmin(data) {
       return await server.post("api/auth/register-by-admin", data, {
+        headers: headersImage,
+      });
+    },
+
+    async me() {
+      return await server.get("api/me", {
         headers: headersImage,
       });
     },
