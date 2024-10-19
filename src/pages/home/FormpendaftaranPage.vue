@@ -164,17 +164,15 @@ const createPendaftaran = async () => {
     const res = await useAuthStore().me();
     // roles.value = res.data.data;
     form.value.user = res.data.data;
-    // console.log(userid.value.user.uuid);
-    console.log(form.value);
 
     await usePatientStore().create(form.value);
     $q.notify({
-      message: "User berhasil dibuat",
+      message: "Pendaftaran pasien berhasil dibuat",
       icon: "check",
       color: "positive",
     });
     // onReset(); // Optionally reset the form on successful submission
-    router.push("/dashboard/user");
+    router.push({ name: "home" });
   } catch (error) {
     console.error("Error fetching data:", error);
     if (error.response.data.status === "failed") {
