@@ -23,7 +23,7 @@
 
         <div style="order: 1; color: white">
           <span style="font-size: 30px; line-height: 1.5; font-weight: 900">
-            MCO
+            HomeCare
           </span>
           <br />
           <div style="line-height: 1; font-weight: 600">
